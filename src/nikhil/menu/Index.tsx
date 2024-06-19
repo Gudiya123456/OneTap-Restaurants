@@ -13,12 +13,7 @@ import { AiFillEdit } from "react-icons/ai";
 import IconTrashLines from '../../components/Icon/IconTrashLines';
 import IconEdit from '../../components/Icon/IconEdit';
 import IconNotes from '../../components/Icon/IconNotes';
-
 import { FaTrash } from "react-icons/fa";
-
-
-
-
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
 import Item from './Item/Index';
@@ -27,8 +22,6 @@ import Addon from './addon/Index';
 import Category from './category/Index';
 import { RiHome4Line } from 'react-icons/ri';
 import { NavLink } from 'react-router-dom';
-
-
 
 export default function Index() {
 

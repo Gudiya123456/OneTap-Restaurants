@@ -1,24 +1,12 @@
-import { url } from 'inspector';
 import React, { useState } from 'react'
-import { AiFillHome } from "react-icons/ai";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { TbRefresh } from "react-icons/tb";
-import { IoAddCircleOutline } from "react-icons/io5";
 import { MdAdd } from "react-icons/md";
 import Dropdown from '../../components/Dropdown';
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
-import { GrDocumentCsv } from "react-icons/gr";
-import { FaHistory } from "react-icons/fa";
-import { AiFillEdit } from "react-icons/ai";
 import IconTrashLines from '../../components/Icon/IconTrashLines';
 import IconEdit from '../../components/Icon/IconEdit';
 import IconNotes from '../../components/Icon/IconNotes';
-
-import { FaTrash } from "react-icons/fa";
-
-
-
-
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
 import TableDrawer from './TableDrawer';

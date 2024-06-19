@@ -15,6 +15,7 @@ import PayemtGateway from '../nikhil/accounting/PayemtGateway';
 import OnlineReports from '../nikhil/reports/OnlineReports';
 import OtherReports from '../nikhil/reports/OtherReports';
 import UserManagement from '../nikhil/reports/UserManagement';
+import AddBankDetails from '../nikhil/accounting/AddBankDetails';
 const Index = lazy(() => import('../nikhil/Index'));
 const Table = lazy(() => import('../nikhil/table/Index'));
 const Analytics = lazy(() => import('../pages/Analytics'));
@@ -224,6 +225,10 @@ const routes = [
     {
         path: '/bank-details',
         element: <BankDetails />,
+    },
+    {
+        path: '/add-bank-details',
+        element: <AddBankDetails />,
     },
 
     {
