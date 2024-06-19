@@ -16,6 +16,8 @@ import OnlineReports from '../nikhil/reports/OnlineReports';
 import OtherReports from '../nikhil/reports/OtherReports';
 import UserManagement from '../nikhil/reports/UserManagement';
 import AddBankDetails from '../nikhil/accounting/AddBankDetails';
+import Zomato from '../nikhil/Marketplace/Zomato';
+import Swiggy from '../nikhil/Marketplace/Swiggy';
 const Index = lazy(() => import('../nikhil/Index'));
 const Table = lazy(() => import('../nikhil/table/Index'));
 const Analytics = lazy(() => import('../pages/Analytics'));
@@ -156,6 +158,16 @@ const routes = [
         path: '/market-place',
         element: <Marketplace />,
     },
+    {
+        path: '/market-place/zomato',
+        element: <Zomato />,
+    },
+
+    {
+        path: '/market-place/swiggy',
+        element: <Swiggy />,
+    },
+
 
     {
         path: '/all-orders',
