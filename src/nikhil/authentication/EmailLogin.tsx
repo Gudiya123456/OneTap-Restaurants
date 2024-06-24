@@ -6,7 +6,7 @@ import withReactContent from 'sweetalert2-react-content';
 import { IRootState } from '../../store';
 import { NavLink, useNavigate } from 'react-router-dom';
 
-import { setCrmToken, setUserData } from '../../store/themeConfigSlice';
+import { setBranches, setCrmToken, setUserData } from '../../store/themeConfigSlice';
 // import { ErrorHandle } from '../common/ErrorHandle';
 import { IoEyeSharp } from "react-icons/io5";
 
@@ -49,7 +49,9 @@ export default function EmailLogin() {
     const loginApi = async (data: any) => {
         setBtnLoading(true)
         try {
-            const response = await axios.post(window.location.origin + "/api/login", data, {
+
+
+            const response = await axios.post("https://waffle-daddy.onetapdine.com/api/login", data, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -58,6 +60,7 @@ export default function EmailLogin() {
             if (response.data.status === 'success') {
                 dispatch(setCrmToken(response.data.token))
                 dispatch(setUserData(response.data.user))
+                dispatch(setBranches(response.data.branches))
                 navigate('/');
             } else {
                 alert("Error")

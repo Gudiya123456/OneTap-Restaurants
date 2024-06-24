@@ -9,6 +9,8 @@ const themeConfig = {
     semidark: false,
     crmToken: '',
     userData: {},
+    branches: [],
+    selectedBranch: null
 };
 
 export default themeConfig;

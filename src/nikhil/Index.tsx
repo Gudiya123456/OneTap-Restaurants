@@ -41,7 +41,9 @@ const Index = () => {
 
             const response = await axios({
                 method: 'get',
-                url: window.location.origin + "/api/home-data",
+                // url: window.location.origin + "/api/home-data",
+
+                url: 'https://waffle-daddy.onetapdine.com/api/home-data',
                 headers: {
                     "Content-Type": "multipart/form-data",
                     Authorization: "Bearer " + crmToken,

@@ -38,7 +38,8 @@ function App({ children }: PropsWithChildren) {
         try {
             const response = await axios({
                 method: 'get',
-                url: window.location.origin + '/api/check-restaurant',
+                // url: window.location.origin + '/api/check-restaurant',
+                url: 'https://waffle-daddy.onetapdine.com/api/check-restaurant',
                 headers: {
                     'Content-Type': 'application/json',
                 },
