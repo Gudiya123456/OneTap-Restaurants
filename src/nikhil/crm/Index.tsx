@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import React,{ Fragment, useState } from "react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
 import { RiHome4Line } from 'react-icons/ri';
