@@ -169,7 +169,9 @@ const Sidebar = () => {
                                         <li>
                                             <NavLink to="/manu-management" className={'sidebar-sub-text'}>{t('Menu & Discount')}</NavLink>
                                         </li>
-
+                                        <li>
+                                            <NavLink to="/online-menu" className={'sidebar-sub-text'}>{t('Online Menu')}</NavLink>
+                                        </li>
                                     </ul>
                                 </AnimateHeight>
                             </li>

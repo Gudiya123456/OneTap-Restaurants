@@ -18,6 +18,8 @@ import UserManagement from '../nikhil/reports/UserManagement';
 import AddBankDetails from '../nikhil/accounting/AddBankDetails';
 import Zomato from '../nikhil/Marketplace/Zomato';
 import Swiggy from '../nikhil/Marketplace/Swiggy';
+import OnlineMenu from '../nikhil/menu/OnlineMenu/OnlineMenu';
+import Login from '../nikhil/authentication/Login';
 const Index = lazy(() => import('../nikhil/Index'));
 const Table = lazy(() => import('../nikhil/table/Index'));
 const Analytics = lazy(() => import('../pages/Analytics'));
@@ -135,10 +137,15 @@ const UserLogs = lazy(() => import('../nikhil/user-logs/Index'));
 const routes = [
     // dashboard
 
+
+
     {
-        path: '/test',
-        element: <Datepicker />,
+        path: '/login',
+        element: <Login />,
+        layout: "blank"
     },
+
+
     {
         path: '/table-management',
         element: <TableManagement />,
@@ -152,6 +159,13 @@ const routes = [
         path: '/manu-management',
         element: <MenuManagement />,
     },
+
+    {
+        path: '/online-menu',
+        element: <OnlineMenu />,
+    },
+
+
 
 
     {
