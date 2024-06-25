@@ -49,7 +49,10 @@ export default function EmailLogin() {
     const loginApi = async (data: any) => {
         setBtnLoading(true)
         try {
-            const response = await axios.post(window.location.origin + "/api/login", data, {
+            const response = await axios.post(
+                // window.location.origin + "/api/login"
+                'https://waffle-daddy.onetapdine.com/api/login',
+                data, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -113,9 +116,10 @@ export default function EmailLogin() {
                 </div>
                 <span className="text-danger font-semibold text-sm">{errors.password}</span>
             </div>
-            <button type="button" onClick={() => login()} disabled={btnLoading} className="btn bg-black text-white w-full rounded-lg mt-2">
+            {/* <button type="button" onClick={() => login()} disabled={btnLoading} className="btn bg-black text-white w-full rounded-lg mt-2">
                 {btnLoading ? 'Please Wait...' : 'Login'}
-            </button>
+            </button> */}
+               <NavLink to='/' className="text-sm text-black">Submit</NavLink>
             <div className='flex  justify-between mt-2'>
                 <div className="flex  items-center gap-2">
                     <input type='checkbox' />

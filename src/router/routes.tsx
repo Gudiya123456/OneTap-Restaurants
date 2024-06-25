@@ -20,6 +20,12 @@ import Zomato from '../nikhil/Marketplace/Zomato';
 import Swiggy from '../nikhil/Marketplace/Swiggy';
 import OnlineMenu from '../nikhil/menu/OnlineMenu/OnlineMenu';
 import Login from '../nikhil/authentication/Login';
+import General from '../nikhil/settings/General';
+import InvoiceSetting from '../nikhil/settings/InvoiceSetting';
+import Sms from '../nikhil/settings/Sms';
+import Whatsapp from '../nikhil/settings/Whatsapp';
+import Rule from '../nikhil/settings/Rule';
+import Banner from '../nikhil/settings/Banner';
 const Index = lazy(() => import('../nikhil/Index'));
 const Table = lazy(() => import('../nikhil/table/Index'));
 const Analytics = lazy(() => import('../pages/Analytics'));
@@ -629,6 +635,43 @@ const routes = [
         element: <Maintenence />,
         layout: 'blank',
     },
+
+    // settings routes
+
+    {
+        path:'/general-setting',
+        element:<General/>,
+        Layout:'default'
+    },
+    {
+        path:'/invoice-setting',
+        element:<InvoiceSetting/>,
+        Layout:'default'
+    },
+    {
+        path:'/sms-setting',
+        element:<Sms/>,
+        Layout:'default'
+    },
+    {
+        path:'/whatsapp-setting',
+        element:<Whatsapp/>,
+        Layout:'default'
+    },
+
+    {
+        path:'/rule-setting',
+        element:<Rule/>,
+        Layout:'default'
+    },
+
+    {
+        path:'/banner-setting',
+        element:<Banner/>,
+        Layout:'default'
+    },
+
+
     //Authentication
     {
         path: '/auth/boxed-signin',
@@ -741,6 +784,10 @@ const routes = [
         element: <Error />,
         layout: 'blank',
     },
+
+
+
+
 ];
 
 export { routes };

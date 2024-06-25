@@ -24,42 +24,43 @@ const Index = () => {
     const crmToken = useSelector((state: IRootState) => state.themeConfig.crmToken);
     console.log(crmToken)
 
-    useEffect(() => {
-        if (!crmToken) navigate('/login')
-        else {
-            dispatch(setPageTitle('Dashboard'));
-            fetchDashboardData()
-        }
-    }, [crmToken]);
+    // useEffect(() => {
+    //     if (!crmToken) navigate('/login')
+    //     else {
+    //         dispatch(setPageTitle('Dashboard'));
+    //         fetchDashboardData()
+    //     }
+    // }, [crmToken]);
 
     const [isLoading, setIsLoading] = useState(1);
 
 
-    const fetchDashboardData = async () => {
-        setIsLoading(1)
-        try {
+    // const fetchDashboardData = async () => {
+    //     setIsLoading(1)
+    //     try {
 
-            const response = await axios({
-                method: 'get',
-                url: window.location.origin + "/api/home-data",
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                    Authorization: "Bearer " + crmToken,
-                },
-            });
+    //         const response = await axios({
+    //             method: 'get',
+    //             // url: window.location.origin + "/api/home-data",
+    //             url:'https://waffle-daddy.onetapdine.com/api/home-data',
+    //             headers: {
+    //                 "Content-Type": "multipart/form-data",
+    //                 Authorization: "Bearer " + crmToken,
+    //             },
+    //         });
 
-            console.log(response)
+    //         console.log(response)
 
-            // 
-        } catch (error) {
+    //         //
+    //     } catch (error) {
 
-            if (error.response.status == 401) {
-                dispatch(setCrmToken(""))
-            }
-        } finally {
-            setIsLoading(0)
-        }
-    }
+    //         if (error.response.status == 401) {
+    //             dispatch(setCrmToken(""))
+    //         }
+    //     } finally {
+    //         setIsLoading(0)
+    //     }
+    // }
 
     const isRtl = useSelector((state: IRootState) => state.themeConfig.rtlClass) === 'rtl' ? true : false;
 
@@ -259,7 +260,7 @@ const Index = () => {
          </li> */}
                             </ol>
                         </div>
-                        {/* 
+                        {/*
  <div className="panel flex justify-between items-center overflow-x-auto whitespace-nowrap p-1.5 rounded-none ">
      <div className="flex  items-center overflow-x-auto whitespace-nowrap " >
          <div className="rounded-full p-1.5   ltr:mr-3 rtl:ml-3">
