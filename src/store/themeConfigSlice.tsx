@@ -34,6 +34,8 @@ const defaultState = {
     semidark: false,
     crmToken: '',
     userData: {},
+    branches: [],
+    selectedBranch: null
 };
 
 const initialState = {
@@ -68,6 +70,8 @@ const initialState = {
 
     crmToken: localStorage.getItem('crmToken') || themeConfig.crmToken,
     userData: JSON.parse(localStorage.getItem('userData')) || themeConfig.userData || themeConfig.userData,
+    branches: JSON.parse(localStorage.getItem('branches')) || themeConfig.branches || themeConfig.branches,
+    selectedBranch: localStorage.getItem('selectedBranch') ? JSON.parse(localStorage.getItem('selectedBranch')) : null,
 };
 
 const themeConfigSlice = createSlice({
@@ -150,9 +154,19 @@ const themeConfigSlice = createSlice({
             localStorage.setItem('userData', JSON.stringify(payload));
             state.userData = payload;
         },
+        setBranches(state, { payload }) {
+            localStorage.setItem('branches', JSON.stringify(payload));
+            state.branches = payload;
+        },
+        setSelectedBranch(state, { payload }) {
+            localStorage.setItem('selectedBranch', JSON.stringify(payload));
+            state.selectedBranch = payload;
+        },
+
+
     },
 });
 
-export const { setUserData, setCrmToken, toggleTheme, toggleMenu, toggleLayout, toggleRTL, toggleAnimation, toggleNavbar, toggleSemidark, toggleLocale, toggleSidebar, setPageTitle } = themeConfigSlice.actions;
+export const { setSelectedBranch, setBranches, setUserData, setCrmToken, toggleTheme, toggleMenu, toggleLayout, toggleRTL, toggleAnimation, toggleNavbar, toggleSemidark, toggleLocale, toggleSidebar, setPageTitle } = themeConfigSlice.actions;
 
 export default themeConfigSlice.reducer;

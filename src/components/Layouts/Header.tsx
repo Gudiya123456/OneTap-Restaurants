@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Fragment } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { IRootState } from '../../store';
-import { toggleRTL, toggleTheme, toggleSidebar, setCrmToken } from '../../store/themeConfigSlice';
+import { toggleRTL, toggleTheme, toggleSidebar, setCrmToken, setSelectedBranch } from '../../store/themeConfigSlice';
 import { useTranslation } from 'react-i18next';
 import i18next from 'i18next';
 import Dropdown from '../Dropdown';
@@ -35,6 +35,9 @@ import IconMenuMore from '../Icon/Menu/IconMenuMore';
 import { TiThMenu } from "react-icons/ti";
 import { FaArrowLeft } from "react-icons/fa";
 import { FaChevronDown } from "react-icons/fa";
+import { Dialog, Transition } from '@headlessui/react';
+import { FaRegCircle } from "react-icons/fa";
+import { FaRegCircleCheck } from "react-icons/fa6";
 const Header = () => {
     const location = useLocation();
     useEffect(() => {
@@ -65,7 +68,10 @@ const Header = () => {
     const themeConfig = useSelector((state: IRootState) => state.themeConfig);
 
     const sidebar = useSelector((state: IRootState) => state.themeConfig.sidebar);
+    const branches = useSelector((state: IRootState) => state.themeConfig.branches);
+    const selectedBranch = useSelector((state: IRootState) => state.themeConfig.selectedBranch);
 
+    console.log(branches)
     console.log("sidebar----", sidebar)
 
     const dispatch = useDispatch();
@@ -151,6 +157,10 @@ const Header = () => {
 
     const { t } = useTranslation();
 
+
+
+    const [selectBrachModal, setSelectBrachModal] = useState(false);
+
     return (
         <header className={`z-40 ${themeConfig.semidark && themeConfig.menu === 'horizontal' ? 'dark' : ''}`}>
             <div className="shadow-sm">
@@ -196,9 +206,9 @@ const Header = () => {
 
                     </div>
 
-                    <div className='bg-[#fafafa] w-[200px] h-[36px] rounded flex justify-center flex-col'>
+                    <div className='bg-[#fafafa] w-[200px] h-[36px] rounded flex justify-center flex-col cursor-pointer' onClick={() => setSelectBrachModal(true)}>
                         <div className='flex justify-between mx-3 items-center'>
-                            <h1 className="text-black  text-center font-bold">All Outlet</h1>
+                            <h1 className="text-black  text-center font-bold">  {selectedBranch ? selectedBranch.branch_name + '-' + selectedBranch.area : 'All Outlet'}</h1>
                             <div>
                                 <FaChevronDown />
 
@@ -388,6 +398,79 @@ const Header = () => {
                 </div>
 
 
+            </div>
+
+
+
+            <div >
+
+                <Transition appear show={selectBrachModal} as={Fragment}>
+                    <Dialog as="div" open={selectBrachModal} onClose={() => setSelectBrachModal(true)}>
+                        <Transition.Child
+                            as={Fragment}
+                            enter="ease-out duration-300"
+                            enterFrom="opacity-0"
+                            enterTo="opacity-100"
+                            leave="ease-in duration-200"
+                            leaveFrom="opacity-100"
+                            leaveTo="opacity-0"
+                        >
+                            <div className="fixed inset-0" />
+                        </Transition.Child>
+                        <div className="fixed inset-0 bg-[black]/60 z-[999] overflow-y-auto">
+                            <div className="flex items-start justify-center min-h-screen px-4">
+                                <Transition.Child
+                                    as={Fragment}
+                                    enter="ease-out duration-300"
+                                    enterFrom="opacity-0 scale-95"
+                                    enterTo="opacity-100 scale-100"
+                                    leave="ease-in duration-200"
+                                    leaveFrom="opacity-100 scale-100"
+                                    leaveTo="opacity-0 scale-95"
+                                >
+                                    <Dialog.Panel className="panel border-0 p-0 rounded-lg overflow-hidden w-full max-w-lg my-8 text-black dark:text-white-dark">
+                                        <div className="flex bg-[#fbfbfb] dark:bg-[#121c2c] items-center justify-between px-5 py-3">
+                                            <div className="font-bold text-lg">Select Outlet</div>
+                                            <button type="button" onClick={() => setSelectBrachModal(false)} className="text-white-dark hover:text-dark">
+                                                x
+                                            </button>
+                                        </div>
+                                        <div className="mb-10">
+                                            {/*  */}
+                                            <div className={`flex items-center cursor-pointer ${!selectedBranch ? 'bg-[#bfc9d4]' : ''}  px-4 py-1 border-b-[1px] border-[#918f8f]`} onClick={() => {
+                                                dispatch(setSelectedBranch(null))
+                                                setSelectBrachModal(false)
+                                            }}>
+                                                <span className="shrink-0 grid place-content-center w-9 h-9 text-base rounded-md   ">
+                                                    {!selectedBranch ? (<FaRegCircleCheck size={20} />) : (<FaRegCircle size={20} />)}
+
+                                                </span>
+                                                <div className="px-3 ">
+                                                    <div><b>All Outlets</b></div>
+                                                </div>
+                                            </div>
+
+                                            {branches.map((branch) => (
+                                                <div key={branch.id} className={`flex items-center cursor-pointer ${selectedBranch && selectedBranch.id == branch.id ? 'bg-[#bfc9d4]' : ''}  px-4 py-1 border-b-[1px] border-[#918f8f]`} onClick={() => {
+                                                    dispatch(setSelectedBranch(branch))
+                                                    setSelectBrachModal(false)
+                                                }}>
+                                                    <span className="shrink-0 grid place-content-center w-9 h-9 text-base rounded-md">
+                                                        {selectedBranch && selectedBranch.id == branch.id ? (<FaRegCircleCheck size={20} />) : (<FaRegCircle size={20} />)}
+                                                    </span>
+                                                    <div className="px-3 ">
+                                                        <div><b>{branch.branch_name} - {branch.area}</b></div>
+                                                    </div>
+                                                    <span className=" text-base px-1 ltr:ml-auto rtl:mr-auto whitespace-pre">[id:{branch.id}]</span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </Dialog.Panel>
+                                </Transition.Child>
+                            </div>
+                        </div>
+                    </Dialog>
+                </Transition>
             </div>
         </header>
     );
