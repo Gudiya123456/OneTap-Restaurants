@@ -32,6 +32,8 @@ const defaultState = {
         { code: 'tr', name: 'Turkish' },
     ],
     semidark: false,
+    crmToken: '',
+    userData: {},
 };
 
 const initialState = {
@@ -63,6 +65,9 @@ const initialState = {
         { code: 'tr', name: 'Turkish' },
         { code: 'ae', name: 'Arabic' },
     ],
+
+    crmToken: localStorage.getItem('crmToken') || themeConfig.crmToken,
+    userData: JSON.parse(localStorage.getItem('userData')) || themeConfig.userData || themeConfig.userData,
 };
 
 const themeConfigSlice = createSlice({
@@ -136,9 +141,18 @@ const themeConfigSlice = createSlice({
         setPageTitle(state, { payload }) {
             document.title = `Onetapdine | ${payload} `;
         },
+
+        setCrmToken(state, { payload }) {
+            localStorage.setItem('crmToken', payload);
+            state.crmToken = payload;
+        },
+        setUserData(state, { payload }) {
+            localStorage.setItem('userData', JSON.stringify(payload));
+            state.userData = payload;
+        },
     },
 });
 
-export const { toggleTheme, toggleMenu, toggleLayout, toggleRTL, toggleAnimation, toggleNavbar, toggleSemidark, toggleLocale, toggleSidebar, setPageTitle } = themeConfigSlice.actions;
+export const { setUserData, setCrmToken, toggleTheme, toggleMenu, toggleLayout, toggleRTL, toggleAnimation, toggleNavbar, toggleSemidark, toggleLocale, toggleSidebar, setPageTitle } = themeConfigSlice.actions;
 
 export default themeConfigSlice.reducer;

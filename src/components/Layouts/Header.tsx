@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { IRootState } from '../../store';
-import { toggleRTL, toggleTheme, toggleSidebar } from '../../store/themeConfigSlice';
+import { toggleRTL, toggleTheme, toggleSidebar, setCrmToken } from '../../store/themeConfigSlice';
 import { useTranslation } from 'react-i18next';
 import i18next from 'i18next';
 import Dropdown from '../Dropdown';
@@ -58,6 +58,8 @@ const Header = () => {
         }
     }, [location]);
 
+    const userData = useSelector((state: IRootState) => state.themeConfig.userData);
+
     const isRtl = useSelector((state: IRootState) => state.themeConfig.rtlClass) === 'rtl' ? true : false;
 
     const themeConfig = useSelector((state: IRootState) => state.themeConfig);
@@ -67,6 +69,10 @@ const Header = () => {
     console.log("sidebar----", sidebar)
 
     const dispatch = useDispatch();
+
+    const Logout = () => {
+        dispatch(setCrmToken(""))
+    }
 
     function createMarkup(messages: any) {
         return { __html: messages };
@@ -346,19 +352,18 @@ const Header = () => {
                                 offset={[0, 8]}
                                 placement={`${isRtl ? 'bottom-start' : 'bottom-end'}`}
                                 btnClassName="relative group block"
-                                button={<img className="w-9 h-9 rounded-full object-cover saturate-50 group-hover:saturate-100" src="https://ui-avatars.com/api/?background=000C&color=fff&name=Onetapdine Admin" alt="userProfile" />}
+                                button={<img className="w-9 h-9 rounded-full object-cover saturate-50 group-hover:saturate-100" src={`https://ui-avatars.com/api/?background=000C&color=fff&name=${userData?.name}`} alt="userProfile" />}
                             >
                                 <ul className="text-dark dark:text-white-dark !py-0 w-[230px] font-semibold dark:text-white-light/90">
                                     <li>
                                         <div className="flex items-center px-4 py-4">
-                                            <img className="rounded-md w-10 h-10 object-cover" src="https://ui-avatars.com/api/?background=000C&color=fff&name=Onetapdine Admin" alt="userProfile" />
+                                            <img className="rounded-md w-10 h-10 object-cover" src={`https://ui-avatars.com/api/?background=000C&color=fff&name=${userData?.name}`} alt="userProfile" />
                                             <div className="ltr:pl-4 rtl:pr-4 truncate">
                                                 <h4 className="text-base">
-                                                    Onetapdine Admin
-                                                    <span className="text-xs bg-success-light rounded text-success px-1 ltr:ml-2 rtl:ml-2">Pro</span>
+                                                    {userData?.name}
                                                 </h4>
                                                 <button type="button" className="text-black/60 hover:text-primary dark:text-dark-light/60 dark:hover:text-white">
-                                                    admin@onetabdine.com
+                                                    {userData?.email}
                                                 </button>
                                             </div>
                                         </div>
@@ -371,10 +376,10 @@ const Header = () => {
                                     </li>
 
                                     <li className="border-t border-white-light dark:border-white-light/10">
-                                        <Link to="/" className="text-danger !py-3">
+                                        <button className="text-danger !py-3" onClick={() => Logout()}>
                                             <IconLogout className="w-4.5 h-4.5 ltr:mr-2 rtl:ml-2 rotate-90 shrink-0" />
                                             Sign Out
-                                        </Link>
+                                        </button>
                                     </li>
                                 </ul>
                             </Dropdown>

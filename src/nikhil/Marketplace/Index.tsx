@@ -13,23 +13,28 @@ import 'tippy.js/dist/tippy.css';
 
 import { RiHome4Line } from 'react-icons/ri';
 import { NavLink } from 'react-router-dom';
+import MarketplaceDrawer from './MarketplaceDrawer';
 
 
 
 export default function Index() {
 
     const accountingTools = [
-        { title: 'Zomato', src: '/assets/marketplace/1.png' },
-        { title: 'Swiggy', src: '/assets/marketplace/2.png' },
-        { title: "Domino's", src: '/assets/marketplace/3.png' },
-        { title: 'Uber Eats', src: '/assets/marketplace/4.png' },
-        { title: 'Eatsure', src: '/assets/marketplace/5.png' },
+        { title: 'Zomato', src: '/assets/marketplace/1.png', link: '/market-place/zomato' },
+        { title: 'Swiggy', src: '/assets/marketplace/2.png', link: '/market-place/swiggy' },
+        { title: "Domino's", src: '/assets/marketplace/3.png', link: '#' },
+        { title: 'Uber Eats', src: '/assets/marketplace/4.png', link: '#' },
+        { title: 'Eatsure', src: '/assets/marketplace/5.png', link: '#' },
 
     ];
 
 
+    const [showDrawer, setShowDrawer] = useState(false);
+
     return (
         <div>
+
+            <MarketplaceDrawer showDrawer={showDrawer} setShowDrawer={setShowDrawer} />
             <div className='bg-[#3b3f5c] flex h-[50px] justify-between px-3 items-center bg-white border-b'>
                 <div>
                     <ol className="flex items-center text-gray-500 font-semibold dark:text-white-dark">
@@ -63,7 +68,7 @@ export default function Index() {
                     <div className="border bg-white rounded-lg shadow-sm p-4 flex flex-col items-center">
                         <img src={tool.src} alt={tool.title} className="mb-4 h-20 w-20 object-contain" />
                         <h3 className="text-lg font-medium mb-2">{tool.title}</h3>
-                        <button onClick={() => { }} className="text-yellow-500">Integrat Now &gt;</button>
+                        <NavLink to={tool.link} className="text-yellow-500">Integrat Now &gt;</NavLink>
 
 
                     </div>
