@@ -24,49 +24,49 @@ function App({ children }: PropsWithChildren) {
     }, [dispatch, themeConfig.theme, themeConfig.menu, themeConfig.layout, themeConfig.rtlClass, themeConfig.animation, themeConfig.navbar, themeConfig.locale, themeConfig.semidark]);
 
 
-    useEffect(() => {
-        checkRestaurant();
-    }, [])
+    // useEffect(() => {
+    //     checkRestaurant();
+    // }, [])
 
     const [isLoading, setIsLoading] = useState(1);
 
     const [valid, setValid] = useState(0);
     const [response, setResponse] = useState<any>(null);
 
-    const checkRestaurant = async () => {
-        setIsLoading(1)
-        try {
-            const response = await axios({
-                method: 'get',
-                // url: window.location.origin + '/api/check-restaurant',
-                url: 'https://waffle-daddy.onetapdine.com/api/check-restaurant',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
-            setResponse(response.data)
-            if (response.data.status == "success" && response.data.action == "login") {
-                setValid(1)
-            }
-            else if (response.data.status == "error" && response.data[0].action == "error") setValid(2)
-            else if (response.data.status == "error" && response.data[0].action == "activation") setValid(3)
-        } catch (error) {
-            console.log(error)
-            if (error.response.status == 500 && error.response.data.message == "Tenant could not be identified on domain not6.onetapdine.com") {
-                setValid(2)
-                setResponse([{ title: "Invalid", message: 'Invalid Attempt' }]);
-            }
-            // console.log(window.location.host)
-        } finally {
-            setIsLoading(0)
-        }
-    }
+    // const checkRestaurant = async () => {
+    //     setIsLoading(1)
+    //     try {
+    //         const response = await axios({
+    //             method: 'get',
+    //             url: window.location.origin + '/api/check-restaurant',
+    //             // url:'https://waffle-daddy.onetapdine.com/api/check-restaurant',
+    //             headers: {
+    //                 'Content-Type': 'application/json',
+    //             },
+    //         });
+    //         setResponse(response.data)
+    //         if (response.data.status == "success" && response.data.action == "login") {
+    //             setValid(1)
+    //         }
+    //         else if (response.data.status == "error" && response.data[0].action == "error") setValid(2)
+    //         else if (response.data.status == "error" && response.data[0].action == "activation") setValid(3)
+    //     } catch (error) {
+    //         console.log(error)
+    //         if (error.response.status == 500 && error.response.data.message == "Tenant could not be identified on domain not6.onetapdine.com") {
+    //             setValid(2)
+    //             setResponse([{ title: "Invalid", message: 'Invalid Attempt' }]);
+    //         }
+    //         // console.log(window.location.host)
+    //     } finally {
+    //         setIsLoading(0)
+    //     }
+    // }
 
 
 
     return (
         <>
-            {isLoading ? (
+            {/* {isLoading ? (
                 <PageLoader />
             ) :
                 valid == 1 ? (
@@ -81,7 +81,15 @@ function App({ children }: PropsWithChildren) {
                         :
                         valid == 3 ? <Activation response={response[0]} />
                             : null
-            }
+            } */}
+            <div>
+            <div
+                        className={`${(store.getState().themeConfig.sidebar && 'toggle-sidebar') || ''} ${themeConfig.menu} ${themeConfig.layout} ${themeConfig.rtlClass
+                            } main-section antialiased relative font-nunito text-sm font-normal`}
+                    >
+                        {children}
+                    </div>
+            </div>
         </>
     );
 }
