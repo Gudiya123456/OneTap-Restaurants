@@ -36,7 +36,7 @@ export default function OnlineMenu() {
         try {
             const response = await axios({
                 method: 'get',
-                url: window.location.origin + '/api/menu-management/online-menus',
+                url: 'https://waffle-daddy.onetapdine.com/api/menu-management/online-menus',
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: "Bearer " + crmToken,

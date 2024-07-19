@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { TbRefresh } from "react-icons/tb";
 import { MdAdd } from "react-icons/md";
@@ -10,8 +10,12 @@ import IconNotes from '../../components/Icon/IconNotes';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
 import TableDrawer from './TableDrawer';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { RiHome4Line } from 'react-icons/ri';
+import { useDispatch, useSelector } from 'react-redux';
+import { IRootState } from '../../store';
+import { setPageTitle } from '../../store/themeConfigSlice';
+import axios from 'axios';
 
 const tableData = [
     {
@@ -53,6 +57,57 @@ const tableData = [
 
 export default function TableManagement() {
     const [showDrawer, setShowDrawer] = useState(false);
+
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const selectedBranch = useSelector((state: IRootState) => state.themeConfig.selectedBranch);
+    const crmToken = useSelector((state: IRootState) => state.themeConfig.crmToken);
+    const branches = useSelector((state: IRootState) => state.themeConfig.branches);
+    const [search, setSearch] = useState('');
+    const [abc, setAbc] = useState('');
+    useEffect(() => {
+        if (!crmToken) navigate('/login')
+        else {
+            dispatch(setPageTitle('Tables '));
+            fetchTables('https://waffle-daddy.onetapdine.com/api/tables');
+        }
+    }, [crmToken])
+
+    useEffect(() => {
+
+        fetchTables('https://waffle-daddy.onetapdine.com/api/tables?page=' + tables?.current_page + '&search=' + search);
+
+    }, [search])
+
+    const [isLoading, setIsLoading] = useState(0);
+
+    const [tables, setTables] = useState(null);
+    const fetchTables = async (url) => {
+        setIsLoading(1)
+        try {
+            const response = await axios.get(url,
+                // const response = await axios.post(window.location.origin + "/api/tables",
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: "Bearer " + crmToken,
+                    },
+                });
+
+
+
+            if (response.data.status == "success") {
+                setTables(response.data.tables)
+            }
+        } catch (error) {
+
+        } finally {
+            setIsLoading(2)
+        }
+
+    }
 
     return (
         <div>
@@ -104,9 +159,9 @@ export default function TableManagement() {
 
                     <div className='flex flex-col md:flex-row gap-3 justify-between p-5'>
                         <div className='flex gap-4'>
-                            <input type="text" placeholder="Enter Table no..." className="form-input py-0" required />
+                            <input type="text" placeholder="Enter Table no..." onChange={(e) => setAbc(e.target.value)} className="form-input py-0" required />
 
-                            <button className='btn btn-sm btn-dark shadow'>Search</button>
+                            <button className='btn btn-sm btn-dark shadow' onClick={() => setSearch(abc)}>Search</button>
                             <button className='btn btn-sm shadow whitespace-nowrap'>Show All</button>
                         </div>
 
@@ -170,21 +225,21 @@ export default function TableManagement() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {tableData.map((data) => {
+                                {tables?.data?.map((data) => {
                                     return (
                                         <tr key={data.id}>
                                             <td>
-                                                <input type="checkbox" className="form-checkbox  outline-dark" />   {data.name}
+                                                <input type="checkbox" className="form-checkbox  outline-dark" />   {data.table_name}
 
                                             </td>
                                             <td>
-                                                <div className="whitespace-nowrap">{data.email}</div>
+                                                <div className="whitespace-nowrap">{data.no_of_persons}</div>
                                             </td>
-                                            <td>{data.date}</td>
-                                            <td>{data.sale}</td>
+                                            <td>{data.extra_information}</td>
+                                            <td>{data.area_name}</td>
                                             <td>
                                                 <label className="w-12 h-6 relative">
-                                                    <input type="checkbox" className="custom_switch absolute w-full h-full opacity-0 z-10 cursor-pointer peer" id="custom_switch_checkbox1" />
+                                                    <input type="checkbox" checked={data.status ? true : false} className="custom_switch absolute w-full h-full opacity-0 z-10 cursor-pointer peer" id="custom_switch_checkbox1" />
                                                     <span className="outline_checkbox bg-icon border-2 border-danger dark:border-white-dark block h-full rounded-full before:absolute before:left-1 before:bg-danger dark:before:bg-white-dark before:bottom-1 before:w-4 before:h-4 before:rounded-full before:bg-[url(/assets/images/close.svg)] before:bg-no-repeat before:bg-center peer-checked:before:left-7 peer-checked:before:bg-[url(/assets/images/checked.svg)] peer-checked:border-success peer-checked:before:bg-success before:transition-all before:duration-300"></span>
                                                 </label>
                                             </td>
@@ -228,51 +283,33 @@ export default function TableManagement() {
                                 <li>
                                     <button
                                         type="button"
+                                        onClick={() => fetchTables(tables?.first_page_url)}
                                         className="flex justify-center font-semibold px-3.5 py-2 rounded transition bg-white-light text-dark hover:text-white hover:bg-primary dark:text-white-light dark:bg-[#191e3a] dark:hover:bg-primary"
                                     >
                                         First
                                     </button>
                                 </li>
+
+
+                                {tables?.links?.map((link) => (
+                                    <li>
+                                        <button
+                                            type="button"
+                                            className={`flex justify-center font-semibold px-3.5 py-2 rounded transition ${link?.active ? 'bg-primary text-white dark:text-white-light dark:bg-primary' : 'bg-white-light text-dark'}  hover:text-white hover:bg-primary dark:text-white-light dark:bg-[#191e3a] dark:hover:bg-primary`}
+                                            onClick={() => fetchTables(link?.url)}
+                                            dangerouslySetInnerHTML={{ __html: link?.label }}
+                                        >
+
+                                        </button>
+                                    </li>
+                                ))}
+
+
+
                                 <li>
                                     <button
                                         type="button"
-                                        className="flex justify-center font-semibold px-3.5 py-2 rounded transition bg-white-light text-dark hover:text-white hover:bg-primary dark:text-white-light dark:bg-[#191e3a] dark:hover:bg-primary"
-                                    >
-                                        Prev
-                                    </button>
-                                </li>
-                                <li>
-                                    <button
-                                        type="button"
-                                        className="flex justify-center font-semibold px-3.5 py-2 rounded transition bg-white-light text-dark hover:text-white hover:bg-primary dark:text-white-light dark:bg-[#191e3a] dark:hover:bg-primary"
-                                    >
-                                        1
-                                    </button>
-                                </li>
-                                <li>
-                                    <button type="button" className="flex justify-center font-semibold px-3.5 py-2 rounded transition bg-primary text-white dark:text-white-light dark:bg-primary">
-                                        2
-                                    </button>
-                                </li>
-                                <li>
-                                    <button
-                                        type="button"
-                                        className="flex justify-center font-semibold px-3.5 py-2 rounded transition bg-white-light text-dark hover:text-white hover:bg-primary dark:text-white-light dark:bg-[#191e3a] dark:hover:bg-primary"
-                                    >
-                                        3
-                                    </button>
-                                </li>
-                                <li>
-                                    <button
-                                        type="button"
-                                        className="flex justify-center font-semibold px-3.5 py-2 rounded transition bg-white-light text-dark hover:text-white hover:bg-primary dark:text-white-light dark:bg-[#191e3a] dark:hover:bg-primary"
-                                    >
-                                        Next
-                                    </button>
-                                </li>
-                                <li>
-                                    <button
-                                        type="button"
+                                        onClick={() => fetchTables(tables.last_page_url)}
                                         className="flex justify-center font-semibold px-3.5 py-2 rounded transition bg-white-light text-dark hover:text-white hover:bg-primary dark:text-white-light dark:bg-[#191e3a] dark:hover:bg-primary"
                                     >
                                         Last

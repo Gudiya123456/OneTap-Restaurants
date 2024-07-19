@@ -47,7 +47,7 @@ export default function () {
         try {
             const response = await axios({
                 method: 'get',
-                url: window.location.origin + '/api/menu-management/online-menus/swiggy',
+                url: 'https://waffle-daddy.onetapdine.com/api/menu-management/online-menus/swiggy',
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: "Bearer " + crmToken,

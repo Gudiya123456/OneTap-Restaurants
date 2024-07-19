@@ -451,7 +451,7 @@ const Header = () => {
                                             </div>
 
                                             {branches.map((branch) => (
-                                                <div className={`flex items-center cursor-pointer ${selectedBranch && selectedBranch.id == branch.id ? 'bg-[#bfc9d4]' : ''}  px-4 py-1 border-b-[1px] border-[#918f8f]`} onClick={() => {
+                                                <div key={branch.id} className={`flex items-center cursor-pointer ${selectedBranch && selectedBranch.id == branch.id ? 'bg-[#bfc9d4]' : ''}  px-4 py-1 border-b-[1px] border-[#918f8f]`} onClick={() => {
                                                     dispatch(setSelectedBranch(branch))
                                                     setSelectBrachModal(false)
                                                 }}>
